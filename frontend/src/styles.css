@@ -72,6 +72,58 @@ a {
   min-height: 84px;
 }
 
+.workspace-nav {
+  border-bottom: 1px solid #cfcbbe;
+  padding-block: 11px;
+}
+
+.workspace-nav-inner {
+  align-items: center;
+  display: flex;
+  gap: 22px;
+  justify-content: space-between;
+}
+
+.workspace-nav-label,
+.workspace-nav-case {
+  color: #7b847d;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.workspace-nav-links {
+  display: flex;
+  flex: 1;
+  gap: 5px;
+}
+
+.workspace-nav-links a {
+  border-radius: 2px;
+  color: #536158;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 9px 13px;
+  text-decoration: none;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.workspace-nav-links a:hover {
+  background: #e9e4d7;
+  color: #1e4437;
+}
+
+.workspace-nav-links a.active {
+  background: #1e4437;
+  color: #f9f4e8;
+}
+
+[data-view][hidden] {
+  display: none !important;
+}
+
 .brand {
   align-items: center;
   display: inline-flex;
@@ -2673,6 +2725,33 @@ textarea::placeholder {
 }
 
 @media (max-width: 590px) {
+  .workspace-nav {
+    padding-block: 8px;
+  }
+
+  .workspace-nav-inner {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .workspace-nav-links {
+    gap: 2px;
+    justify-content: space-between;
+    overflow-x: auto;
+  }
+
+  .workspace-nav-links a {
+    flex: 0 0 auto;
+    font-size: 11px;
+    padding: 8px 9px;
+  }
+
+  .workspace-nav-case {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .shell {
     padding-inline: 20px;
   }

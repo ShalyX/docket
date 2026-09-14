@@ -177,8 +177,22 @@ app.innerHTML = `
     </div>
   </header>
 
+  <nav class="workspace-nav shell" aria-label="Docket workspace">
+    <div class="workspace-nav-inner">
+      <span class="workspace-nav-label">Workspace</span>
+      <div class="workspace-nav-links">
+        <a href="#dashboard" data-view-link="dashboard">Overview</a>
+        <a href="#create" data-view-link="create">Create</a>
+        <a href="#open" data-view-link="cases">Cases</a>
+        <a href="#transactions" data-view-link="activity">Activity</a>
+        <a href="#how-it-works" data-view-link="guide">Guide</a>
+      </div>
+      <span class="workspace-nav-case" id="workspace-nav-case">No case open</span>
+    </div>
+  </nav>
+
   <main id="top">
-    <section class="hero shell">
+    <section class="hero shell" data-view="dashboard">
       <div class="hero-copy">
         <p class="eyebrow">GitHub evidence for paid agent work</p>
         <h1>Fund the work.<br><em>Release what shipped.</em></h1>
@@ -201,7 +215,7 @@ app.innerHTML = `
       </aside>
     </section>
 
-    <section class="status-band">
+    <section class="status-band" data-view="dashboard">
       <div class="shell status-band-inner">
         <span id="release-status-dot" class="status-dot neutral" aria-hidden="true"></span>
         <p id="release-status">Loading release configuration…</p>
@@ -209,7 +223,7 @@ app.innerHTML = `
       </div>
     </section>
 
-    <section id="config" class="shell section config-section">
+    <section id="config" class="shell section config-section" data-view="dashboard">
       <div class="section-heading">
         <div>
           <p class="eyebrow">Release configuration</p>
@@ -239,7 +253,7 @@ app.innerHTML = `
       </div>
     </section>
 
-    <section id="create" class="shell section">
+    <section id="create" class="shell section" data-view="create">
       <div class="section-heading">
         <div>
           <p class="eyebrow">Create a docket</p>
@@ -297,7 +311,7 @@ app.innerHTML = `
       </div>
     </section>
 
-    <section id="open" class="shell section open-section">
+    <section id="open" class="shell section open-section" data-view="cases">
       <div class="section-heading compact-heading">
         <div>
           <p class="eyebrow">Open a shared case</p>
@@ -318,7 +332,7 @@ app.innerHTML = `
       </article>
     </section>
 
-    <section class="shell section recent-section">
+    <section class="shell section recent-section" data-view="cases">
       <div class="section-heading compact-heading">
         <div>
           <p class="eyebrow">My recently opened cases</p>
@@ -329,7 +343,7 @@ app.innerHTML = `
       <div id="recent-cases" class="recent-cases empty-state">No local cases yet.</div>
     </section>
 
-    <section id="transactions" class="shell section transactions-section">
+    <section id="transactions" class="shell section transactions-section" data-view="activity">
       <div class="section-heading compact-heading">
         <div>
           <p class="eyebrow">Transaction center</p>
@@ -346,7 +360,7 @@ app.innerHTML = `
       <div id="transaction-list" class="transaction-list empty-state">No wallet requests have been submitted in this browser.</div>
     </section>
 
-    <section id="exceptions" class="shell section exceptions-section">
+    <section id="exceptions" class="shell section exceptions-section" data-view="activity">
       <div class="section-heading compact-heading">
         <div>
           <p class="eyebrow">Recovery &amp; exception center</p>
@@ -360,7 +374,7 @@ app.innerHTML = `
       <div id="exception-center" class="exception-center empty-state" aria-live="polite">No exceptions need attention in this browser.</div>
     </section>
 
-    <section id="how-it-works" class="shell section pilot-section">
+    <section id="how-it-works" class="shell section pilot-section" data-view="guide">
       <div class="section-heading">
         <div>
           <p class="eyebrow">How pilots work</p>
@@ -429,8 +443,61 @@ const ui = {
   recentCases: document.querySelector("#recent-cases"),
   transactionList: document.querySelector("#transaction-list"),
   exceptionCenter: document.querySelector("#exception-center"),
+  workspaceNavCase: document.querySelector("#workspace-nav-case"),
   toastRegion: document.querySelector("#toast-region"),
 };
+
+const VIEW_ALIASES = {
+  "": "dashboard",
+  top: "dashboard",
+  dashboard: "dashboard",
+  config: "dashboard",
+  create: "create",
+  open: "cases",
+  cases: "cases",
+  recent: "cases",
+  transactions: "activity",
+  exceptions: "activity",
+  activity: "activity",
+  "how-it-works": "guide",
+  guide: "guide",
+};
+
+function viewFromHash() {
+  const key = window.location.hash.replace(/^#/, "").trim().toLowerCase();
+  return VIEW_ALIASES[key] || "dashboard";
+}
+
+function renderWorkspaceNav() {
+  const view = document.body.dataset.view || "dashboard";
+  document.querySelectorAll("[data-view-link]").forEach((link) => {
+    const active = link.dataset.viewLink === view;
+    link.classList.toggle("active", active);
+    if (active) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+  });
+  if (ui.workspaceNavCase) {
+    ui.workspaceNavCase.textContent = state.activeTask?.id ? `Case ${state.activeTask.id}` : "No case open";
+  }
+}
+
+function setWorkspaceView(view, { scrollToHash = false } = {}) {
+  const nextView = VIEW_ALIASES[view] || "dashboard";
+  document.body.dataset.view = nextView;
+  document.querySelectorAll("[data-view]").forEach((section) => {
+    section.hidden = section.dataset.view !== nextView;
+  });
+  renderWorkspaceNav();
+  if (scrollToHash) {
+    const key = window.location.hash.replace(/^#/, "").trim();
+    const target = key ? document.getElementById(key) : null;
+    (target || document.querySelector("#top"))?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+function syncWorkspaceView({ scrollToHash = false } = {}) {
+  setWorkspaceView(viewFromHash(), { scrollToHash });
+}
 
 function readJson(key, fallback) {
   try {
@@ -1690,6 +1757,7 @@ function payoutReceiptState(task) {
 }
 
 function renderTask(task = state.activeTask) {
+  renderWorkspaceNav();
   if (!task) {
     ui.caseDetail.className = "case-detail empty-state";
     ui.caseDetail.textContent = state.contractVerified
@@ -2832,6 +2900,7 @@ async function loadTask(taskId, { quiet = false } = {}) {
     else url.searchParams.delete("tx");
     window.history.replaceState({}, "", url);
     persistCase({ id: task.id, title: task.title, repositoryUrl: task.repositoryUrl });
+    setWorkspaceView("cases");
     renderTask(task);
     await verifyResolutionTransaction(task);
     if (!quiet) toast(`Loaded ${id} from the configured contract.`, "success");
@@ -3263,6 +3332,7 @@ function saveConfiguration(event) {
 }
 
 function bindEvents() {
+  window.addEventListener("hashchange", () => syncWorkspaceView({ scrollToHash: true }));
   ui.configForm.addEventListener("submit", saveConfiguration);
   ui.createForm.addEventListener("submit", submitCreateDocket);
   ui.createForm.addEventListener("input", (event) => {
@@ -3279,7 +3349,10 @@ function bindEvents() {
     if (!control || control.disabled) return;
     const action = control.dataset.action;
     if (action === "connect-wallet") await connectWallet();
-    if (action === "scroll-config") document.querySelector("#config")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (action === "scroll-config") {
+      setWorkspaceView("dashboard");
+      document.querySelector("#config")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
     if (action === "verify-contract") await verifyContract();
     if (action === "prepare-docket-config") {
       try {
@@ -3331,7 +3404,7 @@ function bindEvents() {
       const taskId = String(control.dataset.taskId || "").trim();
       if (taskId) {
         await loadTask(taskId, { quiet: true });
-        document.querySelector("#open")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.location.hash = "open";
       }
     }
     if (action === "open-recent-case") await loadTask(control.dataset.taskId);
@@ -3410,6 +3483,7 @@ function bindEvents() {
 }
 
 async function initialize() {
+  syncWorkspaceView();
   renderCriteria(state.preparedDocket?.criteria || defaultCriteria());
   restorePreparedDocketForm();
   renderRecentCases();
