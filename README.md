@@ -1,5 +1,7 @@
 # Docket
 
+**Live demo:** [shalyx.github.io/docket](https://shalyx.github.io/docket/)
+
 **Docket is the evidence and proportional-settlement layer for paid implementation work on public GitHub.** A requester funds a short, weighted acceptance checklist for a known worker. The worker supplies a pull request, commit, and GitHub Actions run. If the work is disputed, GenLayer independently reads bounded public GitHub facts and settles only the share supported by those facts.
 
 > **Current release state:** Docket v2 is deployed on Studio Next at `0xa6f640F8bb879c9336F9D5A0a8fBdD4f810Af7B3`. Its 46,719-byte source and 11-method schema are verified through `https://studio-next.genlayer.com/api`. Founder-operated cases on this instance prove both routes: `dkt-accept-drill-20260913` paid the full 1 GEN escrow after requester acceptance, while `dkt-dispute-7030-20260912` independently verified public PR #2 and its successful Actions run, returned `PASS / PASS / FAIL`, and split 1 GEN proportionally. Both finalized with a zero contract balance. External-user validation remains open.
