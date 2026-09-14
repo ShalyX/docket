@@ -2,7 +2,7 @@ Thanks — sharing the readable Docket contract review bundle here. It includes 
 
 `Docket-Studio-Next-contract-review.zip`
 
-The deployable source is `contracts/docket.py` (SHA-256 `56FAB2C4739BA63C545E0725408F6ACAE3CD44259DD1399088C95A54C150ACFC`). Its direct suite passes 28/28, including the regression that prevents a requester from taking a completed worker’s escrow by waiting out a submission.
+The deployable source is `contracts/docket.py` (SHA-256 `56fab2c4739ba63c545e0725408f6acae3cd44259dd1399088c95a54c150acfc`). Its direct suite passes 28/28, including the regression that prevents a requester from taking a completed worker’s escrow by waiting out a submission.
 
 We moved the browser client to the matching Studio Next release-candidate SDK and `studioNext` network definition (chain ID 61997). The bootstrap path is now complete at `0xa6f640F8bb879c9336F9D5A0a8fBdD4f810Af7B3`, with a verified 46,719-byte source and 11-method schema.
 

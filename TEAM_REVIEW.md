@@ -22,11 +22,11 @@ The source contains the recovery protection added after review: a requester cann
 
 | Item | Value |
 | --- | --- |
-| Readable source SHA-256 | `56FAB2C4739BA63C545E0725408F6ACAE3CD44259DD1399088C95A54C150ACFC` |
+| Readable source SHA-256 | `56fab2c4739ba63c545e0725408f6acae3cd44259dd1399088c95a54c150acfc` |
 | Runtime dependency | `py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6` |
 | Studio target | Studio Next / `studioNext`, chain ID `61997` |
 | Canonical RPC | `https://studio-next.genlayer.com/api` |
-| Studio deployment source SHA-256 | `DEDA418529318E01B7BD3A0766FEA648304378EB730E348537037442F3F991C7` |
+| Studio deployment source SHA-256 | `deda418529318e01b7bd3a0766fea648304378eb730e348537037442f3f991c7` |
 
 ## Local validation
 
