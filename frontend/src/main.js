@@ -164,11 +164,7 @@ app.innerHTML = `
   <div class="paper-noise" aria-hidden="true"></div>
   <header class="site-header shell">
     <a class="brand" href="#top" aria-label="Docket home">
-      <svg class="brand-mark" viewBox="0 0 44 44" aria-hidden="true">
-        <path d="M7 5h21l9 9v25H7z" fill="none" stroke="currentColor" stroke-width="3"></path>
-        <path d="M28 5v10h9M13 20h16M13 27h16M13 34h10" fill="none" stroke="currentColor" stroke-width="3"></path>
-        <path d="M27 34h5" stroke="#dc523a" stroke-width="3"></path>
-      </svg>
+      <img class="brand-mark" src="${import.meta.env.BASE_URL}favicon.svg" alt="" aria-hidden="true" />
       <span>DOCKET</span>
     </a>
     <div class="header-right">
@@ -408,11 +404,7 @@ app.innerHTML = `
 
   <footer class="site-footer shell">
     <div class="brand footer-brand">
-      <svg class="brand-mark" viewBox="0 0 44 44" aria-hidden="true">
-        <path d="M7 5h21l9 9v25H7z" fill="none" stroke="currentColor" stroke-width="3"></path>
-        <path d="M28 5v10h9M13 20h16M13 27h16M13 34h10" fill="none" stroke="currentColor" stroke-width="3"></path>
-        <path d="M27 34h5" stroke="#dc523a" stroke-width="3"></path>
-      </svg>
+      <img class="brand-mark" src="${import.meta.env.BASE_URL}favicon.svg" alt="" aria-hidden="true" />
       <span>DOCKET</span>
     </div>
     <p>Public evidence for paid agent work.</p>

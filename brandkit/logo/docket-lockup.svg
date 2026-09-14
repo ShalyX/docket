@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 96" role="img" aria-labelledby="title desc">
+  <title id="title">Docket</title>
+  <desc id="desc">Docket mark and wordmark.</desc>
+  <defs>
+    <clipPath id="docket-d">
+      <path d="M12 8h32c25.4 0 40 14.8 40 40S69.4 88 44 88H12V8Zm16 16v48h15c16.8 0 25-7.6 25-24S59.8 24 43 24H28Z" fill-rule="evenodd"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#docket-d)">
+    <rect width="96" height="96" fill="#1e4437"/>
+    <rect y="62" width="96" height="34" fill="#d85039"/>
+    <rect x="8" y="34" width="80" height="5" fill="#f4f0e7"/>
+    <rect x="8" y="58" width="80" height="5" fill="#f4f0e7"/>
+  </g>
+  <text x="112" y="61" fill="#18231f" font-family="Arial, sans-serif" font-size="41" font-weight="700" letter-spacing="7">DOCKET</text>
+  <text x="114" y="80" fill="#637168" font-family="monospace" font-size="10" letter-spacing="1.8">RELEASE WHAT SHIPPED</text>
+</svg>
+

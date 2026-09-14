@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Docket project logo</title>
+  <desc id="desc">The Docket D divided into weighted settlement bands.</desc>
+  <rect width="1024" height="1024" rx="112" fill="#f4f0e7"/>
+  <path d="M168 148h300c240 0 388 133 388 364S708 876 468 876H168V148Zm150 148v432h142c153 0 239-65 239-216s-86-216-239-216H318Z" fill="#1e4437" fill-rule="evenodd"/>
+  <path d="M168 602h688v274H168z" fill="#d85039" clip-path="url(#d)"/>
+  <defs>
+    <clipPath id="d">
+      <path d="M168 148h300c240 0 388 133 388 364S708 876 468 876H168V148Zm150 148v432h142c153 0 239-65 239-216s-86-216-239-216H318Z" fill-rule="evenodd"/>
+    </clipPath>
+  </defs>
+  <path d="M184 390h650M184 588h650" stroke="#f4f0e7" stroke-width="34"/>
+</svg>
+

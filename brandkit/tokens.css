@@ -1,0 +1,12 @@
+:root {
+  --docket-paper: #f4f0e7;
+  --docket-ink: #18231f;
+  --docket-forest: #1e4437;
+  --docket-mint: #a9d7b5;
+  --docket-coral: #d85039;
+  --docket-rule: #cfcbbe;
+  --docket-display: "Fraunces", Georgia, serif;
+  --docket-ui: "Manrope", system-ui, sans-serif;
+  --docket-evidence: "DM Mono", ui-monospace, monospace;
+}
+

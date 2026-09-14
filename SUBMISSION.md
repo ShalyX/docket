@@ -1,5 +1,13 @@
 # Docket — Agent Tank submission brief
 
+## Public release
+
+- Live app: `https://docket-seven-hazel.vercel.app/`
+- GitHub Pages mirror: `https://shalyx.github.io/docket/`
+- Source: `https://github.com/ShalyX/docket`
+- Studio Next contract: `https://explorer-studio-dev.genlayer.com/address/0xa6f640F8bb879c9336F9D5A0a8fBdD4f810Af7B3`
+- Portal logo, social card, favicon family, and demo thumbnail: `brandkit/`
+
 ## One sentence
 
 Docket gives paid public-GitHub implementation work a verifiable delivery record and an on-chain proportional settlement rule, so a disputed pull request can be paid according to the criteria it actually satisfies.

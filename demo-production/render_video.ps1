@@ -22,7 +22,9 @@ for ($index = 0; $index -lt $durations.Count; $index += 1) {
 
 $concatPath = Join-Path $clips 'concat.txt'
 $concatLines = 1..$durations.Count | ForEach-Object { "file 'clip-{0:D2}.mp4'" -f $_ }
-Set-Content -LiteralPath $concatPath -Value $concatLines -Encoding utf8
+# Windows PowerShell 5 writes a BOM for -Encoding utf8; FFmpeg treats that
+# prefix as part of the first concat directive. ASCII is sufficient here.
+Set-Content -LiteralPath $concatPath -Value $concatLines -Encoding ascii
 
 $silent = Join-Path $root 'docket-demo-silent.mp4'
 & $ffmpeg -y -hide_banner -loglevel error -f concat -safe 0 -i $concatPath -c copy $silent

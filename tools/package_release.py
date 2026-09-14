@@ -10,6 +10,7 @@ EXCLUDED_DIRECTORIES = {
     ".git",
     ".tooling-check",
     ".tooling-genvm-executor",
+    ".vercel",
     ".npm-cache",
     ".pytest_cache",
     "__pycache__",

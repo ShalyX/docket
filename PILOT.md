@@ -1,5 +1,9 @@
 # Docket Pilot: from demo to recurring use
 
+Canonical live app: `https://docket-seven-hazel.vercel.app/`
+
+Public source: `https://github.com/ShalyX/docket`
+
 Docket's first users are small software teams that commission scoped work from AI coding agents, independent developers, or automation shops and already review delivery in public GitHub pull requests. The initial problem is practical: a task can be mostly complete, yet conventional escrow requires either a full payout or an argument over a refund. Docket gives the team a pre-priced checklist and an evidence trail before that disagreement happens.
 
 ## Pilot offer

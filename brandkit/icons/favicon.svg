@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <rect width="48" height="48" rx="6" fill="#f4f0e7"/>
+  <defs>
+    <clipPath id="docket-d">
+      <path d="M6 4h16c12.7 0 20 7.4 20 20s-7.3 20-20 20H6V4Zm8 8v24h7.5C29.9 36 34 32.2 34 24s-4.1-12-12.5-12H14Z" fill-rule="evenodd"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#docket-d)">
+    <rect width="48" height="48" fill="#1e4437"/>
+    <rect y="31" width="48" height="17" fill="#d85039"/>
+    <rect x="4" y="17" width="40" height="2.5" fill="#f4f0e7"/>
+    <rect x="4" y="29" width="40" height="2.5" fill="#f4f0e7"/>
+  </g>
+</svg>
+

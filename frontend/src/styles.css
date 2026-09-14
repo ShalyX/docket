@@ -19,9 +19,7 @@ html {
 body {
   min-width: 320px;
   margin: 0;
-  background:
-    radial-gradient(circle at 72% -10%, rgba(224, 92, 56, 0.12), transparent 34rem),
-    #f4f0e7;
+  background: #f4f0e7;
 }
 
 button,

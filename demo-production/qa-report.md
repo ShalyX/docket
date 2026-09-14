@@ -31,5 +31,5 @@
 - Audio: AAC LC, 48 kHz.
 - Fast-start metadata enabled.
 - Full file decoded successfully with no reported media errors.
-- Captioned MP4 SHA-256: `149594b5ad403ab58dda4228d0a6b72274c9afdef029a289e429f694bd8fb139`.
+- Captioned MP4 SHA-256: `830fd4ebe18eeae9b79e560f1c4a0fd7964868b4cfc8da8e18981cf0bf256094`.
 - Representative frames checked at 2, 7, 14, 23, 33, 41, 46, 51, and 56 seconds.
