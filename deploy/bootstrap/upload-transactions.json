@@ -1,0 +1,46 @@
+{
+  "address": "0xa6f640F8bb879c9336F9D5A0a8fBdD4f810Af7B3",
+  "uploader": "0x09A345AD0D1Ce226A2a6c97fa98627b6C1E2d209",
+  "hashes": [
+    {
+      "chunk": "chunk-01.txt",
+      "bytes": 6000,
+      "hash": "0xf340af845eef5651c12332b67c6ef7d23146e5a5cbb1597b3e2361810ac26137"
+    },
+    {
+      "chunk": "chunk-02.txt",
+      "bytes": 6000,
+      "hash": "0x773af0d3b85fcbe0d7c523895e5362e48ceaf2fffe9eb0bedd3e0b6bcb02323b"
+    },
+    {
+      "chunk": "chunk-03.txt",
+      "bytes": 6000,
+      "hash": "0xd4849793ecd0a45b8abad14bb2abe4b14ed1536637403cf256b8a77e7672c49e"
+    },
+    {
+      "chunk": "chunk-04.txt",
+      "bytes": 6000,
+      "hash": "0x24ccb54eee7daa37c88311fbe2429ffe4531bd370465193d38000d12de316d20"
+    },
+    {
+      "chunk": "chunk-05.txt",
+      "bytes": 6000,
+      "hash": "0xbf6fe18282fcf8aee81a9dc7115a2d06904b5825243e6a4139e4e6a711288646"
+    },
+    {
+      "chunk": "chunk-06.txt",
+      "bytes": 6000,
+      "hash": "0x582d2e6c58e85f2ce83bc111bccd231ab7a1395e8f2e494acd93e61232a63020"
+    },
+    {
+      "chunk": "chunk-07.txt",
+      "bytes": 6000,
+      "hash": "0x23da96641c990364764dec3ca7afa8ac9e2773c28152b06d87e1e70f94c1592c"
+    },
+    {
+      "chunk": "chunk-08.txt",
+      "bytes": 4719,
+      "hash": "0xe53b2974fbd1db0e66196e0b1875ccc54d650a0dd393bdd8980118ac199c6601"
+    }
+  ]
+}

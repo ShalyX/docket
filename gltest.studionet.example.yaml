@@ -1,0 +1,13 @@
+networks:
+  default: studionet
+  studionet:
+    accounts:
+      - ${GENLAYER_REQUESTER_PRIVATE_KEY}
+      - ${GENLAYER_WORKER_PRIVATE_KEY}
+    from: ${GENLAYER_REQUESTER_PRIVATE_KEY}
+    default_wait_interval: 5000
+    default_wait_retries: 180
+paths:
+  contracts: contracts
+  artifacts: artifacts
+environment: .env.studionet

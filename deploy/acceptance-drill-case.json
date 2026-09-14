@@ -1,0 +1,121 @@
+{
+  "network": "studioNext",
+  "chainId": 61997,
+  "taskId": "dkt-accept-drill-20260913",
+  "contractAddress": "0xa6f640F8bb879c9336F9D5A0a8fBdD4f810Af7B3",
+  "registrationTxId": "0xe8213549a0e92966a88081a1f83bfad01e88bb92a8fe7d4a471398e963482412",
+  "registrationExecutionResult": "FINISHED_WITH_RETURN",
+  "requester": "0x058a417446bc0ab5e23bbefc4667e78d412f8840",
+  "worker": "0xfb4f1c40f05d3690d1b3da5468e2c50964885718",
+  "repositoryUrl": "https://github.com/shalyx/touchline-relay",
+  "pullRequestUrl": "https://github.com/shalyx/touchline-relay/pull/5",
+  "actionsRunUrl": "https://github.com/shalyx/touchline-relay/actions/runs/34774786923",
+  "evidenceHeadSha": "c23236b1110718a4998149429e9540b737e51663",
+  "configSha256": "59b735598f57a646f11914c46a1acd85f3857e1890eb8400ca5015e6a70b49a3",
+  "escrowWei": "1000000000000000000",
+  "balancesBeforeRegistration": null,
+  "status": "RESOLVED",
+  "pilotType": "founder-operated acceptance proof",
+  "updatedAt": "2026-09-13T18:37:33.733Z",
+  "deliveryTxId": "0xeee2927bb2dfc901600b4b27ed7ff51159a25b2a26efbd73891a930a4e4d45ef",
+  "deliveryExecutionResult": "FINISHED_WITH_RETURN",
+  "manifest": {
+    "pr_url": "https://github.com/shalyx/touchline-relay/pull/5",
+    "head_sha": "c23236b1110718a4998149429e9540b737e51663",
+    "actions_run_url": "https://github.com/shalyx/touchline-relay/actions/runs/34774786923"
+  },
+  "acceptanceTxId": "0x98e211e696a044263fc8d98312220cd771083ce7e1f91aef4a83f036a1a21ca1",
+  "acceptanceExecutionResult": "FINISHED_WITH_RETURN",
+  "lifecycle": {
+    "storedStatus": "Finalized",
+    "storedStatusCode": 7,
+    "projectedStatus": "Finalized",
+    "projectedStatusCode": 7,
+    "resolutionAction": "NoOp",
+    "resolutionActionCode": 0,
+    "resolutionSource": "Unspecified",
+    "resolutionSourceCode": 0,
+    "decisionId": null,
+    "decisionActive": false,
+    "evaluatedAt": 1789324652
+  },
+  "triggeredTransactionIds": [],
+  "task": {
+    "attempts": 0,
+    "checklist": [
+      {
+        "description": "Add docs/acceptance-drill.md with a section titled \"Acceptance path\" that explains requester-authorized full settlement.",
+        "id": "document-acceptance-path",
+        "weight_bps": 4000
+      },
+      {
+        "description": "The submitted pull request has a successful GitHub Actions pull_request workflow run linked to its exact head commit.",
+        "id": "actions-run-succeeds",
+        "weight_bps": 3000
+      },
+      {
+        "description": "Add docs/acceptance-drill.json containing task_id and expected_worker_amount_wei fields.",
+        "id": "include-acceptance-receipt",
+        "weight_bps": 3000
+      }
+    ],
+    "config_sha256": "59b735598f57a646f11914c46a1acd85f3857e1890eb8400ca5015e6a70b49a3",
+    "created_at": 1789324497,
+    "dispute_reason": "",
+    "escrow_amount": "1000000000000000000",
+    "evidence_manifest": {
+      "actions_run_url": "https://github.com/shalyx/touchline-relay/actions/runs/34774786923",
+      "head_sha": "c23236b1110718a4998149429e9540b737e51663",
+      "pr_number": "5",
+      "pr_url": "https://github.com/shalyx/touchline-relay/pull/5",
+      "run_id": "34774786923"
+    },
+    "evidence_snapshot": {},
+    "evidence_version": 1,
+    "findings": [
+      {
+        "id": "document-acceptance-path",
+        "reason": "Accepted by requester.",
+        "verdict": "PASS"
+      },
+      {
+        "id": "actions-run-succeeds",
+        "reason": "Accepted by requester.",
+        "verdict": "PASS"
+      },
+      {
+        "id": "include-acceptance-receipt",
+        "reason": "Accepted by requester.",
+        "verdict": "PASS"
+      }
+    ],
+    "id": "dkt-accept-drill-20260913",
+    "inconclusive_at": 0,
+    "passed_bps": 10000,
+    "repository_slug": "shalyx/touchline-relay",
+    "repository_url": "https://github.com/shalyx/touchline-relay",
+    "requester": "0x058a417446bc0ab5e23bbefc4667e78d412f8840",
+    "requester_amount": 0,
+    "resolved_at": 1789324615,
+    "status": "RESOLVED",
+    "submitted_at": 1789324549,
+    "title": "Exercise requester-authorized acceptance",
+    "worker": "0xfb4f1c40f05d3690d1b3da5468e2c50964885718",
+    "worker_amount": "1000000000000000000"
+  },
+  "passedBps": 10000,
+  "workerAmountWei": "1000000000000000000",
+  "requesterAmountWei": "0",
+  "balancesBeforeAcceptance": {
+    "contractWei": "1000000000000000000",
+    "requesterWei": "4995899292222499991193",
+    "workerWei": "6002098978317499990131"
+  },
+  "balancesAfterSettlement": {
+    "contractWei": "0",
+    "requesterWei": "4995899165914499990370",
+    "workerWei": "6003098978317499990131"
+  },
+  "contractBalanceAfterSettlementWei": "0",
+  "payoutVerification": "Requester acceptance finalized with FINISHED_WITH_RETURN; resolved state assigns the full 1 GEN escrow to the worker; contract balance is zero."
+}

@@ -1,0 +1,151 @@
+{
+  "taskId": "dkt-recovery-drill-20260912",
+  "contractAddress": "0xa6f640F8bb879c9336F9D5A0a8fBdD4f810Af7B3",
+  "registrationTxId": "0x20e4d83897f143f7e969267658cc451c97e308eccc7c2e90bb71c152c010980d",
+  "requester": "0x058A417446Bc0Ab5e23bBeFC4667E78D412F8840",
+  "worker": "0xfB4f1C40f05d3690d1B3da5468e2c50964885718",
+  "repositoryUrl": "https://github.com/shalyx/touchline-relay",
+  "pullRequestUrl": "https://github.com/shalyx/touchline-relay/pull/4",
+  "actionsRunUrl": "https://github.com/shalyx/touchline-relay/actions/runs/34723025237",
+  "goodHeadSha": "1273ae2155af8bef32f29644d6a60c61f0732695",
+  "badHeadSha": "0000000000000000000000000000000000000000",
+  "configSha256": "5970b325ffca9024609e31fa9c64df9d090cd7d1f8e3515f1fd946a9d7f98d19",
+  "escrowWei": "1000000000000000000",
+  "updatedAt": "2026-09-12T22:56:17.658Z",
+  "deliveryTxId": "0xe3ebb1d21d3fd09c5545d175dadea09acc313ca47556d8df2e0b5d82573be855",
+  "manifest": {
+    "pr_url": "https://github.com/shalyx/touchline-relay/pull/4",
+    "head_sha": "1273ae2155af8bef32f29644d6a60c61f0732695",
+    "actions_run_url": "https://github.com/shalyx/touchline-relay/actions/runs/34723025237"
+  },
+  "disputeTxId": "0x4a882bbab1983cf274c86e08f840d9816980606279a6be583b6abb09e1f7bcee",
+  "disputeReason": "The first evidence packet points at a stale commit, so the public source cannot be verified. Keep escrow locked until the worker supplies a manifest for the immutable PR head.",
+  "status": "RESOLVED",
+  "resolutionTxId": "0xf0b7db36855b0371cba991ce25bc14f8bbae549cd3eed8fe6251c38a195e413d",
+  "task": {
+    "attempts": 2,
+    "checklist": [
+      {
+        "description": "Add docs/recovery-drill.md with a section titled \"Recovery path\" that explains fail-closed evidence recovery.",
+        "id": "document-recovery-path",
+        "weight_bps": 4000
+      },
+      {
+        "description": "The submitted pull request has a successful GitHub Actions pull_request workflow run linked to its exact head commit.",
+        "id": "actions-run-succeeds",
+        "weight_bps": 3000
+      },
+      {
+        "description": "Add docs/recovery-drill.json containing task_id and recovery_status fields.",
+        "id": "include-recovery-receipt",
+        "weight_bps": 3000
+      }
+    ],
+    "config_sha256": "5970b325ffca9024609e31fa9c64df9d090cd7d1f8e3515f1fd946a9d7f98d19",
+    "created_at": 1789252753,
+    "dispute_reason": "The first evidence packet points at a stale commit, so the public source cannot be verified. Keep escrow locked until the worker supplies a manifest for the immutable PR head.",
+    "escrow_amount": "1000000000000000000",
+    "evidence_manifest": {
+      "actions_run_url": "https://github.com/shalyx/touchline-relay/actions/runs/34723025237",
+      "head_sha": "1273ae2155af8bef32f29644d6a60c61f0732695",
+      "pr_number": "4",
+      "pr_url": "https://github.com/shalyx/touchline-relay/pull/4",
+      "run_id": "34723025237"
+    },
+    "evidence_snapshot": {
+      "actions_run_url": "https://github.com/shalyx/touchline-relay/actions/runs/34723025237",
+      "changed_files": [
+        {
+          "additions": 9,
+          "deletions": 9,
+          "filename": "docket.yml",
+          "patch_excerpt": "@@ -1,21 +1,21 @@\n # Public Docket agreement configuration. Keep this file unchanged after registration.\n version: 2\n-task_id: dkt-8eaed55e224940e4ae9edbe1\n+task_id: dkt-recovery-drill-20260912\n repository_url: https://github.com/shalyx/touchline-relay\n-worker_address: 0x9d6d1f18502e424bbbbdab7e1826682bc5c0e994\n-title: \"Add a Docket evidence workflow to Touchline Relay\"\n+worker_address: 0xfb4f1c40f05d3690d1b3da5468e2c50964885718\n+title: \"Exercise fail-closed evidence recovery\"\n escrow_wei: \"1000000000000000000\"\n \n criteria:\n-  - id: add-a-docket-evidence-work\n+  - id: document-recovery-path\n     weight_bps: 4000\n-    description: \"Add a Docket evidence workflow under .github/workflows and show a successful run for the submitted pull request.\"\n-  - id: document-in-the-readme-how\n+    description: \"Add docs/recovery-drill.md with a section titled \\\"Recovery path\\\" that explains fail-closed evidence recovery.\"\n+  - id: actions-run-succeeds\n     weight_bps: 3000\n-    description: \"Document in the README how contributors generate and submit a Docket evidence manifest for paid changes.\"\n-  - id: all-automated-tests-pass-i\n+    description: \"The submitted pull request has a successful GitHub Actions pull_request workflow run linked to its exact head commit.\"\n+  - id: include-recovery-receipt\n     weight_bps: 3000\n-    description: \"All automated tests pass in the GitHub Actions run submitted as delivery evidence.\"\n+    description: \"Add docs/recovery-drill.json containing task_id and recovery_status fields.\"\n \n github:\n   provider: github",
+          "status": "modified"
+        },
+        {
+          "additions": 9,
+          "deletions": 0,
+          "filename": "docs/recovery-drill.md",
+          "patch_excerpt": "@@ -0,0 +1,9 @@\n+# Recovery drill\n+\n+This pull request is the public fixture for Docket's fail-closed evidence path.\n+\n+## Recovery path\n+\n+When GenLayer cannot verify the submitted public source, Docket records `INCONCLUSIVE` findings and moves the case to `NEEDS_EVIDENCE`. Escrow remains locked. The worker can submit a new manifest with `supplement_evidence`; the requester can recover the escrow only after the contract's seven-day inconclusive window or its absolute case deadline.\n+\n+The machine-readable recovery receipt is intentionally omitted from this fixture so the adjudicator has a criterion-level failure to show alongside the successful evidence checks.",
+          "status": "added"
+        }
+      ],
+      "changed_files_total": 2,
+      "config_path": "docket.yml",
+      "config_repository": "shalyx/touchline-relay",
+      "head_sha": "1273ae2155af8bef32f29644d6a60c61f0732695",
+      "pr_merged": false,
+      "pr_number": "4",
+      "pr_state": "open",
+      "pr_url": "https://github.com/shalyx/touchline-relay/pull/4",
+      "relationships": {
+        "config_at_head_matches_registration": true,
+        "config_source_is_public": true,
+        "config_terms_match_registration": true,
+        "manifest_head_matches_pr": true,
+        "pr_targets_task_repository": true,
+        "repository_is_public": true,
+        "workflow_completed_successfully": true,
+        "workflow_head_matches_pr": true,
+        "workflow_is_pull_request_event": true,
+        "workflow_links_to_manifest_pr": true,
+        "workflow_targets_task_repository": true
+      },
+      "repository": "shalyx/touchline-relay",
+      "verification_status": "VERIFIED",
+      "workflow_conclusion": "success",
+      "workflow_event": "pull_request",
+      "workflow_head_sha": "1273ae2155af8bef32f29644d6a60c61f0732695",
+      "workflow_run_attempt": 1,
+      "workflow_status": "completed"
+    },
+    "evidence_version": 2,
+    "findings": [
+      {
+        "id": "document-recovery-path",
+        "reason": "The file docs/recovery-drill.md was added and contains the required section title '## Recovery path' and the relevant explanation.",
+        "verdict": "PASS"
+      },
+      {
+        "id": "actions-run-succeeds",
+        "reason": "GitHub API facts confirm a successful workflow run (conclusion: success) for the exact head commit 1273ae2155af8bef32f29644d6a60c61f0732695.",
+        "verdict": "PASS"
+      },
+      {
+        "id": "include-recovery-receipt",
+        "reason": "The file docs/recovery-drill.json is not present in the changed_files list, and the patch for docs/recovery-drill.md explicitly states it was intentionally omitted.",
+        "verdict": "FAIL"
+      }
+    ],
+    "id": "dkt-recovery-drill-20260912",
+    "inconclusive_at": 0,
+    "passed_bps": 7000,
+    "repository_slug": "shalyx/touchline-relay",
+    "repository_url": "https://github.com/shalyx/touchline-relay",
+    "requester": "0x058a417446bc0ab5e23bbefc4667e78d412f8840",
+    "requester_amount": "300000000000000000",
+    "resolved_at": 1789253729,
+    "status": "RESOLVED",
+    "submitted_at": 1789252853,
+    "title": "Exercise fail-closed evidence recovery",
+    "worker": "0xfb4f1c40f05d3690d1b3da5468e2c50964885718",
+    "worker_amount": "700000000000000000"
+  },
+  "lifecycle": {
+    "storedStatus": "Finalized",
+    "storedStatusCode": 7,
+    "projectedStatus": "Finalized",
+    "projectedStatusCode": 7,
+    "resolutionAction": "NoOp",
+    "resolutionActionCode": 0,
+    "resolutionSource": "Unspecified",
+    "resolutionSourceCode": 0,
+    "decisionId": null,
+    "decisionActive": false,
+    "evaluatedAt": 1789253777
+  },
+  "successfulActionsRunUrl": "https://github.com/shalyx/touchline-relay/actions/runs/34723025237",
+  "successfulActionsRunId": 34723025237,
+  "supplementTxId": "0x52893c003e9240c32cd447448f528b6f2738c5b7d2a388685cb570a80082b9aa",
+  "repairedResolutionTxId": "0xf0b7db36855b0371cba991ce25bc14f8bbae549cd3eed8fe6251c38a195e413d"
+}

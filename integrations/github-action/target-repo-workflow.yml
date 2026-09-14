@@ -1,0 +1,41 @@
+name: Docket evidence
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+# GitHub supplies a read-only contents token for checkout. The Docket action
+# itself reads no token, writes no credential, and makes no external API call.
+permissions:
+  contents: read
+
+jobs:
+  evidence:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The manifest head SHA and config must come from the same PR-head revision.
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Generate public Docket evidence
+        id: docket_evidence
+        uses: ./.docket/github-action
+        with:
+          config-path: docket.yml
+
+      - name: Publish copyable Docket evidence in the job summary
+        env:
+          DOCKET_MANIFEST: ${{ steps.docket_evidence.outputs.manifest }}
+          DOCKET_PROOF: ${{ steps.docket_evidence.outputs.proof }}
+        shell: bash
+        run: |
+          {
+            printf '## Docket evidence\n\n'
+            printf 'Copy both JSON objects into the matching Docket case.\n\n'
+            printf '### Manifest\n\n```json\n%s\n```\n\n' "$DOCKET_MANIFEST"
+            printf '### Proof\n\n```json\n%s\n```\n' "$DOCKET_PROOF"
+          } >> "$GITHUB_STEP_SUMMARY"

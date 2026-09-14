@@ -1,0 +1,34 @@
+# Format-only v2 example. Do not register this file or edit it into a case.
+# Generate and commit the exact canonical docket.yml from the Docket browser.
+version: 2
+task_id: dkt-github-pr-42
+repository_url: https://github.com/owner/repository
+worker_address: 0x1111111111111111111111111111111111111111
+title: "Ship the public Docket GitHub evidence action"
+escrow_wei: "10000000000000000000"
+
+# A generated case has no comments beyond its canonical opening comment.
+criteria:
+  - id: action-builds
+    weight_bps: 2500
+    description: The GitHub Action is valid YAML and runs on Node 20 without third-party packages.
+  - id: public-manifest
+    weight_bps: 2500
+    description: A public pull request URL, head SHA, and Actions run URL are emitted as compact evidence.
+  - id: public-inputs
+    weight_bps: 2000
+    description: The action rejects malformed, private, or non-github.com evidence contexts.
+  - id: agent-guide
+    weight_bps: 1500
+    description: An agent can verify the manifest and submit it against the matching Docket task.
+  - id: tests-pass
+    weight_bps: 1500
+    description: Representative local event payload tests pass with the Node test runner.
+
+github:
+  provider: github
+  public_only: true
+  config_path: docket.yml
+
+# This file is public input. Do not add wallet secrets, GitHub tokens, private
+# URLs, customer data, or any content that should not become task evidence.

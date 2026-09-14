@@ -1,0 +1,14 @@
+{
+  "product": "Docket",
+  "release": "v2-github-evidence",
+  "network": "studioNext",
+  "chainId": 61997,
+  "contractAddress": "0xa6f640F8bb879c9336F9D5A0a8fBdD4f810Af7B3",
+  "deploymentTxId": "0x2b0c6ccda62cc2d00604d483808c1d4292e2a8a995ca8b0a376e46c0b9a8e688",
+  "bootstrapDeploymentTxId": "0x0adf9d29f2b99cc2b46463d3bcc4c4c0d30f0c62363178431b6ac0c21a849090",
+  "explorerBaseUrl": "https://explorer-studio-dev.genlayer.com",
+  "sourceSha256": "DEDA418529318E01B7BD3A0766FEA648304378EB730E348537037442F3F991C7",
+  "status": "deployed",
+  "updatedAt": "2026-09-14T13:38:29Z",
+  "rpcUrl": "https://studio-next.genlayer.com/api"
+}

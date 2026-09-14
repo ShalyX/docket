@@ -1,0 +1,35 @@
+name: Docket GitHub Evidence
+description: Generate a public, compact Docket delivery-evidence manifest from a pull request and its workflow context.
+author: Docket
+
+inputs:
+  config-path:
+    description: Repository-relative path to the public Docket configuration file.
+    required: false
+    default: docket.yml
+  task-id:
+    description: Optional Docket task ID. When supplied, it must match task_id in the configuration file.
+    required: false
+    default: ""
+
+outputs:
+  manifest:
+    description: "Exact flat JSON accepted by Docket.submit_delivery: pr_url, head_sha, actions_run_url, and no extra keys."
+  manifest-sha256:
+    description: SHA-256 hash of the exact manifest output.
+  proof:
+    description: Separate JSON binding the manifest hash to the public Docket config and task ID; do not submit this as the contract manifest.
+  proof-sha256:
+    description: SHA-256 hash of the exact proof output.
+  config-sha256:
+    description: SHA-256 hash of the public configuration file used to bind the evidence to its checklist.
+  pull-request-url:
+    description: Validated public GitHub pull-request URL.
+  actions-run-url:
+    description: Validated public GitHub Actions run URL.
+  head-sha:
+    description: Validated pull-request head commit SHA.
+
+runs:
+  using: node20
+  main: src/index.js

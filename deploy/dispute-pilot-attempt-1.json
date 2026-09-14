@@ -1,0 +1,16 @@
+{
+  "network": "studioNext",
+  "chainId": 61997,
+  "supersededContractAddress": "0x729C8B0451Cc42Cc4abdF9b5ba468ce14eF79057",
+  "taskId": "dkt-dispute-7030-20260912",
+  "registrationTxId": "0xdcee687e90beb69202b190306d88e226febcb22d06277eddade5e1981e42d681",
+  "deliveryTxId": "0xe0cda85479f4cbe6a2a472030d1d8edc2ab3ea8c6faef8497e2f0bcbe7df3354",
+  "disputeTxId": "0xbc833ce28bed7513fe3be52063edea17881cd8bbb668775272c9cbabd6b3dd4f",
+  "resolutionTxId": null,
+  "status": "DISPUTED",
+  "escrowWei": "1000000000000000000",
+  "failureStage": "resolve_dispute fee simulation",
+  "failure": "py-genlayer:test exposes run_nondet_default rather than run_nondet_unsafe",
+  "funds": "Disposable Studio Next test GEN remains locked in the superseded contract.",
+  "replacementContractAddress": "0xa6f640F8bb879c9336F9D5A0a8fBdD4f810Af7B3"
+}

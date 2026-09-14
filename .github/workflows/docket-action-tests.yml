@@ -1,0 +1,29 @@
+name: Docket Action checks
+
+on:
+  pull_request:
+    paths:
+      - "integrations/github-action/**"
+      - ".github/workflows/docket-action-tests.yml"
+  push:
+    branches: [main]
+    paths:
+      - "integrations/github-action/**"
+      - ".github/workflows/docket-action-tests.yml"
+
+# GitHub uses its read-only contents token to checkout. Tests receive no
+# persisted checkout credential and do not access a token directly.
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Run evidence Action tests
+        run: node integrations/github-action/test/index.test.js

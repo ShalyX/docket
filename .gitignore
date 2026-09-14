@@ -1,0 +1,14 @@
+artifacts/
+.npm-cache/
+.tooling-check/
+.tooling-genvm-executor/
+.pytest_cache/
+pytest-cache-files-*/
+__pycache__/
+*.pyc
+.env
+.env.*
+frontend/.npm-cache/
+frontend/node_modules/
+frontend/dist/
+deploy/*.local.json

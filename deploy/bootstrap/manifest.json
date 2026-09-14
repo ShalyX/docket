@@ -1,0 +1,61 @@
+{
+  "source": "deploy/bootstrap/docket.studio.py",
+  "source_origin": "contracts/docket.py",
+  "runtime_dependency": "py-genlayer:test",
+  "runtime_compatibility": "run_nondet_unsafe mapped to legacy run_nondet_default",
+  "source_bytes": 46719,
+  "source_sha256": "deda418529318e01b7bd3a0766fea648304378eb730e348537037442f3f991c7",
+  "chunk_bytes": 6000,
+  "chunk_count": 8,
+  "encoding": "GenLayer CLI bytes argument: b# followed by lowercase hex",
+  "chunks": [
+    {
+      "index": 1,
+      "file": "chunk-01.txt",
+      "bytes": 6000,
+      "sha256": "feed000282c5ceb67a2483cf0fc832994e85ad8fec909f8ef990a4b2204c0526"
+    },
+    {
+      "index": 2,
+      "file": "chunk-02.txt",
+      "bytes": 6000,
+      "sha256": "f909b4b0d2241e7b332024a3c7dbc90f4471c0f6d995d56833440373747e8b27"
+    },
+    {
+      "index": 3,
+      "file": "chunk-03.txt",
+      "bytes": 6000,
+      "sha256": "bf5a82c23723d58fa24760c6805c4056d5dd2ad3d39f875629a499b8fcc69c13"
+    },
+    {
+      "index": 4,
+      "file": "chunk-04.txt",
+      "bytes": 6000,
+      "sha256": "de2da19dbaa469a2f8699cdebb60578ebe89d7eff066dabc7682ee07bb248fb3"
+    },
+    {
+      "index": 5,
+      "file": "chunk-05.txt",
+      "bytes": 6000,
+      "sha256": "f30bc35095f23960c074a245c1e1ffbf7844a4a74b190a0c2b23a5e62c46ffb0"
+    },
+    {
+      "index": 6,
+      "file": "chunk-06.txt",
+      "bytes": 6000,
+      "sha256": "4440a1e16613b51afc88828e44cb5723a21215a63348a28223fc7087c5743f47"
+    },
+    {
+      "index": 7,
+      "file": "chunk-07.txt",
+      "bytes": 6000,
+      "sha256": "d211ac7525d1fc85e461a9310c58722a27af843bbed90662d4a33e45650b3cc6"
+    },
+    {
+      "index": 8,
+      "file": "chunk-08.txt",
+      "bytes": 4719,
+      "sha256": "121b0bfff0bfd4b4adf3ad6c038508eeccc3edc56fbadeaed6a2f763773669b1"
+    }
+  ]
+}

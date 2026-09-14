@@ -1,0 +1,163 @@
+{
+  "taskId": "dkt-appeal-drill-20260912",
+  "contractAddress": "0xa6f640F8bb879c9336F9D5A0a8fBdD4f810Af7B3",
+  "registrationTxId": "0x6a01b16267bf235c5adcd159593ce44592f61974e6e5be40d4f9d4e5b1e90eb2",
+  "requester": "0x058A417446Bc0Ab5e23bBeFC4667E78D412F8840",
+  "worker": "0xfB4f1C40f05d3690d1B3da5468e2c50964885718",
+  "repositoryUrl": "https://github.com/shalyx/touchline-relay",
+  "pullRequestUrl": "https://github.com/shalyx/touchline-relay/pull/3",
+  "actionsRunUrl": "https://github.com/shalyx/touchline-relay/actions/runs/34720906133",
+  "headSha": "a42c5d1035fa6d21e572428c2670c81a35f0707f",
+  "configSha256": "bca6bad5f2b80f93d770f8b5a41f329ff3f84c05690d19f5b936039269b5cb97",
+  "escrowWei": "1000000000000000000",
+  "status": "RESOLVED",
+  "updatedAt": "2026-09-12T21:55:28.568Z",
+  "deliveryTxId": "0x7174a374d55658bba59aeba6bd9e03c6dccf734291759109fd54aeaf89b88190",
+  "manifest": {
+    "pr_url": "https://github.com/shalyx/touchline-relay/pull/3",
+    "head_sha": "a42c5d1035fa6d21e572428c2670c81a35f0707f",
+    "actions_run_url": "https://github.com/shalyx/touchline-relay/actions/runs/34720906133"
+  },
+  "disputeTxId": "0x119403a49188218e9f065cbdd58d6f706033843800805b93334b8a345f886acb",
+  "disputeReason": "The delivery omits docs/appeal-drill.json, so the machine-readable appeal receipt criterion is disputed. Evaluate each weighted criterion independently from the public pull request and linked Actions run.",
+  "resolutionTxId": "0xe0f917eef533237f02c64edfacb7800182b431ff2f29ba811979ebc23003ef5b",
+  "appealChargeWei": "368085000008794",
+  "appealAttempts": 1,
+  "protocolBeforeAppeal": {
+    "storedStatus": "Accepted",
+    "storedStatusCode": 5,
+    "projectedStatus": "Accepted",
+    "projectedStatusCode": 5,
+    "resolutionAction": "NoOp",
+    "resolutionActionCode": 0,
+    "resolutionSource": "FullReveal",
+    "resolutionSourceCode": 6,
+    "decisionId": "1",
+    "decisionActive": true,
+    "evaluatedAt": 1789250088
+  },
+  "finalLifecycle": {
+    "storedStatus": "Finalized",
+    "storedStatusCode": 7,
+    "projectedStatus": "Finalized",
+    "projectedStatusCode": 7,
+    "resolutionAction": "NoOp",
+    "resolutionActionCode": 0,
+    "resolutionSource": "Unspecified",
+    "resolutionSourceCode": 0,
+    "decisionId": null,
+    "decisionActive": false,
+    "evaluatedAt": 1789250128
+  },
+  "task": {
+    "attempts": 1,
+    "checklist": [
+      {
+        "description": "Add docs/appeal-drill.md with a section titled \"Appeal path\" that explains this native consensus appeal drill.",
+        "id": "document-appeal-path",
+        "weight_bps": 4000
+      },
+      {
+        "description": "The submitted pull request has a successful GitHub Actions pull_request workflow run linked to its exact head commit.",
+        "id": "actions-run-succeeds",
+        "weight_bps": 3000
+      },
+      {
+        "description": "Add docs/appeal-drill.json containing task_id and appeal_charge_wei fields.",
+        "id": "add-appeal-receipt",
+        "weight_bps": 3000
+      }
+    ],
+    "config_sha256": "bca6bad5f2b80f93d770f8b5a41f329ff3f84c05690d19f5b936039269b5cb97",
+    "created_at": 1789249818,
+    "dispute_reason": "The delivery omits docs/appeal-drill.json, so the machine-readable appeal receipt criterion is disputed. Evaluate each weighted criterion independently from the public pull request and linked Actions run.",
+    "escrow_amount": "1000000000000000000",
+    "evidence_manifest": {
+      "actions_run_url": "https://github.com/shalyx/touchline-relay/actions/runs/34720906133",
+      "head_sha": "a42c5d1035fa6d21e572428c2670c81a35f0707f",
+      "pr_number": "3",
+      "pr_url": "https://github.com/shalyx/touchline-relay/pull/3",
+      "run_id": "34720906133"
+    },
+    "evidence_snapshot": {
+      "actions_run_url": "https://github.com/shalyx/touchline-relay/actions/runs/34720906133",
+      "changed_files": [
+        {
+          "additions": 6,
+          "deletions": 6,
+          "filename": "docket.yml",
+          "patch_excerpt": "@@ -1,21 +1,21 @@\n # Public Docket agreement configuration. Keep this file unchanged after registration.\n version: 2\n-task_id: dkt-dispute-7030-20260912\n+task_id: dkt-appeal-drill-20260912\n repository_url: https://github.com/shalyx/touchline-relay\n worker_address: 0xfb4f1c40f05d3690d1b3da5468e2c50964885718\n-title: \"Document a Docket disputed settlement pilot\"\n+title: \"Exercise the native GenLayer appeal path\"\n escrow_wei: \"1000000000000000000\"\n \n criteria:\n-  - id: document-dispute-pilot\n+  - id: document-appeal-path\n     weight_bps: 4000\n-    description: \"Add docs/docket-dispute-pilot.md with a section titled \\\"Observed behavior\\\" that explains the purpose of this disputed-settlement pilot.\"\n+    description: \"Add docs/appeal-drill.md with a section titled \\\"Appeal path\\\" that explains this native consensus appeal drill.\"\n   - id: actions-run-succeeds\n     weight_bps: 3000\n     description: \"The submitted pull request has a successful GitHub Actions pull_request workflow run linked to its exact head commit.\"\n-  - id: add-machine-receipt\n+  - id: add-appeal-receipt\n     weight_bps: 3000\n-    description: \"Add docs/docket-dispute-pilot.json containing a JSON object with task_id, expected_passed_bps, and expected_worker_amount_wei fields.\"\n+    description: \"Add docs/appeal-drill.json containing task_id and appeal_charge_wei fields.\"\n \n github:\n   provider: github",
+          "status": "modified"
+        },
+        {
+          "additions": 3,
+          "deletions": 0,
+          "filename": "docs/appeal-drill.md",
+          "patch_excerpt": "@@ -0,0 +1,3 @@\n+# Appeal path\n+\n+This change exercises Docket's native GenLayer consensus appeal path. The case intentionally leaves the machine-readable receipt criterion open so the requester can challenge a provisional decision before finality.",
+          "status": "added"
+        }
+      ],
+      "changed_files_total": 2,
+      "config_path": "docket.yml",
+      "config_repository": "shalyx/touchline-relay",
+      "head_sha": "a42c5d1035fa6d21e572428c2670c81a35f0707f",
+      "pr_merged": false,
+      "pr_number": "3",
+      "pr_state": "open",
+      "pr_url": "https://github.com/shalyx/touchline-relay/pull/3",
+      "relationships": {
+        "config_at_head_matches_registration": true,
+        "config_source_is_public": true,
+        "config_terms_match_registration": true,
+        "manifest_head_matches_pr": true,
+        "pr_targets_task_repository": true,
+        "repository_is_public": true,
+        "workflow_completed_successfully": true,
+        "workflow_head_matches_pr": true,
+        "workflow_is_pull_request_event": true,
+        "workflow_links_to_manifest_pr": true,
+        "workflow_targets_task_repository": true
+      },
+      "repository": "shalyx/touchline-relay",
+      "verification_status": "VERIFIED",
+      "workflow_conclusion": "success",
+      "workflow_event": "pull_request",
+      "workflow_head_sha": "a42c5d1035fa6d21e572428c2670c81a35f0707f",
+      "workflow_run_attempt": 1,
+      "workflow_status": "completed"
+    },
+    "evidence_version": 1,
+    "findings": [
+      {
+        "id": "document-appeal-path",
+        "reason": "The changed files include docs/appeal-drill.md added with a visible section title \"# Appeal path\" and text explaining the native GenLayer consensus appeal drill.",
+        "verdict": "PASS"
+      },
+      {
+        "id": "actions-run-succeeds",
+        "reason": "GitHub facts show a completed successful pull_request workflow run, and the workflow head SHA matches the PR head SHA exactly (a42c5d1035fa6d21e572428c2670c81a35f0707f).",
+        "verdict": "PASS"
+      },
+      {
+        "id": "add-appeal-receipt",
+        "reason": "The listed changed files are only docket.yml and docs/appeal-drill.md; no docs/appeal-drill.json file is shown, so the required receipt file is not present in the supplied evidence.",
+        "verdict": "FAIL"
+      }
+    ],
+    "id": "dkt-appeal-drill-20260912",
+    "inconclusive_at": 0,
+    "passed_bps": 7000,
+    "repository_slug": "shalyx/touchline-relay",
+    "repository_url": "https://github.com/shalyx/touchline-relay",
+    "requester": "0x058a417446bc0ab5e23bbefc4667e78d412f8840",
+    "requester_amount": "300000000000000000",
+    "resolved_at": 1789250069,
+    "status": "RESOLVED",
+    "submitted_at": 1789249888,
+    "title": "Exercise the native GenLayer appeal path",
+    "worker": "0xfb4f1c40f05d3690d1b3da5468e2c50964885718",
+    "worker_amount": "700000000000000000"
+  },
+  "payoutTransactionIds": [],
+  "resolutionExecutionResult": "FINISHED_WITH_RETURN"
+}

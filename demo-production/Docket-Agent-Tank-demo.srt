@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:07,400
+Paid GitHub work rarely fails cleanly. A pull request can satisfy most of an agreement and still miss a required deliverable.
+
+2
+00:00:07,400 --> 00:00:20,300
+Docket prices that disagreement before work begins. This Studio Next case locked one GEN against three weighted criteria and bound delivery to public GitHub evidence.
+
+3
+00:00:20,300 --> 00:00:31,000
+GenLayer validators independently fetched the evidence. Two criteria passed. One failed.
+
+4
+00:00:31,000 --> 00:00:40,000
+The contract converted that verdict into the settlement: 0.7 GEN to the worker and 0.3 back to the requester.
+
+5
+00:00:40,000 --> 00:00:49,800
+The same contract finalized requester acceptance, while another case exercised GenLayer's native appeal lifecycle.
+
+6
+00:00:49,800 --> 00:00:57,500
+Shipping the GitHub-native flow let us prove the primitive directly. External pilot next.
