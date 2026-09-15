@@ -4,6 +4,7 @@ import { deriveAdjudicationStages } from "./adjudication.js";
 import { deriveExceptionItems } from "./exceptions.js";
 import { buildCaseReceipt } from "./receipt.js";
 import { deriveRecoveryWindow, formatRecoveryCountdown } from "./recovery.js";
+import { ensureWalletNetwork } from "./wallet.js";
 import { studioNext } from "../studio-next.mjs";
 
 const APP_VERSION = "v2-github-evidence";
@@ -20,7 +21,6 @@ const NETWORKS = {
     id: "studioNext",
     label: "Studio Next",
     chainId: 61997,
-    connectName: "studioDevnet",
     explorerBaseUrl: "https://explorer-studio-dev.genlayer.com",
   },
 };
@@ -2596,7 +2596,7 @@ async function verifyContract({ quiet = false } = {}) {
 
 async function connectWallet() {
   if (!window.ethereum?.request) {
-    toast("No EIP-1193 wallet was found. Install a GenLayer-compatible wallet and Snap, then try again.", "error");
+    toast("No EIP-1193 wallet was found. Install a browser wallet or open Docket through a wallet connection, then try again.", "error");
     return;
   }
   const key = "connect-wallet";
@@ -2611,7 +2611,7 @@ async function connectWallet() {
     const address = Array.isArray(accounts) ? accounts[0] : "";
     if (!isAddress(address)) throw new Error("The wallet did not return a usable account.");
     state.walletClient = sdk.createClient({ chain: sdk.chains[network.id], account: address, provider: window.ethereum });
-    await state.walletClient.connect(network.connectName);
+    await ensureWalletNetwork(window.ethereum, sdk.chains[network.id], network.explorerBaseUrl);
     state.transactionKit = sdk.createTransactionKit({
       chain: sdk.chains[network.id],
       provider: window.ethereum,
