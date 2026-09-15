@@ -8,6 +8,301 @@
   text-rendering: optimizeLegibility;
 }
 
+/* Interaction and motion polish. Base content stays fully visible if scripts or animation do not run. */
+html.js .app-shell {
+  overflow-x: clip;
+}
+
+.hero,
+.hero-copy,
+.hero-note,
+.section-heading,
+.header-right,
+.brand {
+  min-width: 0;
+}
+
+html.js .hero-deck {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+html.js .motion-ready .site-header,
+html.js .motion-ready .workspace-nav,
+html.js .motion-ready .hero-copy > *,
+html.js .motion-ready .hero-note,
+html.js .motion-ready .status-band,
+html.js .motion-ready .release-metadata > div {
+  animation: docket-enter 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+html.js .motion-ready .site-header { animation-delay: 40ms; }
+html.js .motion-ready .workspace-nav { animation-delay: 90ms; }
+html.js .motion-ready .hero-copy > :nth-child(1) { animation-delay: 130ms; }
+html.js .motion-ready .hero-copy > :nth-child(2) { animation-delay: 180ms; }
+html.js .motion-ready .hero-copy > :nth-child(3) { animation-delay: 230ms; }
+html.js .motion-ready .hero-copy > :nth-child(4) { animation-delay: 280ms; }
+html.js .motion-ready .hero-copy > :nth-child(5) { animation-delay: 330ms; }
+html.js .motion-ready .hero-note { animation-delay: 240ms; }
+html.js .motion-ready .status-band { animation-delay: 340ms; }
+html.js .motion-ready .release-metadata > div:nth-child(1) { animation-delay: 80ms; }
+html.js .motion-ready .release-metadata > div:nth-child(2) { animation-delay: 130ms; }
+html.js .motion-ready .release-metadata > div:nth-child(3) { animation-delay: 180ms; }
+html.js .motion-ready .release-metadata > div:nth-child(4) { animation-delay: 230ms; }
+
+@keyframes docket-enter {
+  from { opacity: 0; transform: translate3d(0, 12px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes docket-view-enter {
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes docket-state-change {
+  from { opacity: 0.65; transform: translate3d(0, 4px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes docket-spin {
+  to { transform: rotate(360deg); }
+}
+
+html.js .motion-ready .view-entering {
+  animation: docket-view-enter 380ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+html.js .motion-ready .case-detail.state-changing {
+  animation: docket-state-change 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.release-metadata.is-loading {
+  align-items: center;
+  display: flex;
+  min-height: 54px;
+}
+
+.metadata-loading {
+  align-items: center;
+  color: #6b776e;
+  display: inline-flex;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  gap: 9px;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+}
+
+.loading-mark,
+.button-spinner {
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  flex: 0 0 auto;
+  height: 14px;
+  width: 14px;
+}
+
+.loading-mark {
+  animation: docket-spin 900ms linear infinite;
+  color: #d85039;
+}
+
+.button-spinner {
+  animation: docket-spin 720ms linear infinite;
+  height: 13px;
+  width: 13px;
+}
+
+.is-pending {
+  cursor: wait !important;
+}
+
+.is-pending .button-spinner {
+  margin-right: 1px;
+}
+
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid #d85039;
+  outline-offset: 3px;
+}
+
+button,
+a {
+  touch-action: manipulation;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+section[id],
+h2,
+h3 {
+  scroll-margin-top: 24px;
+}
+
+.text-button {
+  min-height: 36px;
+  padding: 7px 3px;
+}
+
+.icon-button {
+  min-height: 36px;
+  min-width: 36px;
+}
+
+.status-band-inner,
+.verification-result,
+.inline-status {
+  transition: background-color 180ms ease, color 180ms ease, opacity 180ms ease;
+}
+
+.recent-case,
+.delivery-candidate {
+  position: relative;
+  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.recent-case:hover,
+.delivery-candidate:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.recent-case:active,
+.delivery-candidate:not(:disabled):active {
+  transform: translateY(0);
+}
+
+.recent-case.selected {
+  background: #e8efe5;
+  box-shadow: inset 3px 0 0 #39734b;
+}
+
+.delivery-candidate.selected {
+  background: #e8efe5;
+  box-shadow: inset 4px 0 0 #39734b;
+}
+
+.selection-marker {
+  color: #39734b;
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  position: absolute;
+  right: 12px;
+  text-transform: uppercase;
+  top: 10px;
+}
+
+.delivery-candidate .selection-marker {
+  right: 12px;
+  top: 8px;
+}
+
+.delivery-candidate.selected > .status-pill {
+  margin-right: 60px;
+}
+
+.requester-review-room[aria-busy="true"],
+.action-panel[aria-busy="true"],
+.delivery-submit-row form[aria-busy="true"] {
+  cursor: progress;
+}
+
+@media (max-width: 590px) {
+  #app,
+  main,
+  .shell,
+  .hero,
+  .hero-copy,
+  .hero-note {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .hero-copy > *,
+  .hero-deck {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .quiet-button {
+    min-width: 0;
+  }
+
+  .shell {
+    padding-inline: 20px;
+  }
+
+  .status-band-inner {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+
+  .status-band-inner p {
+    flex: 1 1 220px;
+    min-width: 0;
+  }
+
+  .status-band-inner .text-button {
+    flex-basis: 100%;
+    text-align: left;
+  }
+
+  .delivery-candidate {
+    grid-template-columns: 1fr;
+  }
+
+  .delivery-candidate > small {
+    grid-column: 1;
+  }
+
+  .delivery-candidate.selected > .status-pill {
+    margin-right: 0;
+  }
+
+  .selection-marker {
+    right: 10px;
+    top: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html.js .motion-ready .site-header,
+  html.js .motion-ready .workspace-nav,
+  html.js .motion-ready .hero-copy > *,
+  html.js .motion-ready .hero-note,
+  html.js .motion-ready .status-band,
+  html.js .motion-ready .release-metadata > div,
+  html.js .motion-ready .view-entering,
+  html.js .motion-ready .case-detail.state-changing {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -20,6 +315,7 @@ body {
   min-width: 320px;
   margin: 0;
   background: #f4f0e7;
+  overflow-x: hidden;
 }
 
 button,
@@ -2960,5 +3256,11 @@ textarea::placeholder {
     justify-content: center;
     min-height: 170px;
     padding-block: 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
   }
 }

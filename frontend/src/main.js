@@ -214,7 +214,7 @@ app.innerHTML = `
     <section class="status-band" data-view="dashboard">
       <div class="shell status-band-inner">
         <span id="release-status-dot" class="status-dot neutral" aria-hidden="true"></span>
-        <p id="release-status">Loading release configuration…</p>
+        <p id="release-status" role="status" aria-live="polite">Loading release configuration…</p>
         <button class="text-button" data-action="scroll-config" type="button">Configure release</button>
       </div>
     </section>
@@ -228,7 +228,9 @@ app.innerHTML = `
         <p>The browser never invents an address. It must read the selected contract successfully and recognize the v2 interface before it enables a signature.</p>
       </div>
       <div class="config-card">
-        <div class="release-metadata" id="release-metadata"></div>
+        <div class="release-metadata is-loading" id="release-metadata" aria-busy="true">
+          <div class="metadata-loading" role="status"><span class="loading-mark" aria-hidden="true"></span><span>Loading release metadata…</span></div>
+        </div>
         <form id="config-form" class="config-form">
           <label>
             <span>Network</span>
@@ -322,7 +324,7 @@ app.innerHTML = `
         </label>
         <button class="secondary-button" type="submit">Load case</button>
       </form>
-      <div id="case-loading" class="inline-status" hidden></div>
+      <div id="case-loading" class="inline-status" role="status" aria-live="polite" hidden></div>
       <article id="case-detail" class="case-detail empty-state">
         <p>Enter a case ID or open a shared Docket URL after a deployed contract has been verified.</p>
       </article>
@@ -413,6 +415,9 @@ app.innerHTML = `
   <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
 `;
 
+app.classList.add("app-shell");
+document.documentElement.classList.add("js");
+
 const ui = {
   headerNetwork: document.querySelector("#header-network"),
   connectWallet: document.querySelector("#connect-wallet"),
@@ -455,6 +460,9 @@ const VIEW_ALIASES = {
   guide: "guide",
 };
 
+let viewTransitionTimer;
+let caseTransitionTimer;
+
 function viewFromHash() {
   const key = window.location.hash.replace(/^#/, "").trim().toLowerCase();
   return VIEW_ALIASES[key] || "dashboard";
@@ -476,10 +484,19 @@ function renderWorkspaceNav() {
 function setWorkspaceView(view, { scrollToHash = false } = {}) {
   const nextView = VIEW_ALIASES[view] || "dashboard";
   document.body.dataset.view = nextView;
+  const visibleSections = [];
   document.querySelectorAll("[data-view]").forEach((section) => {
-    section.hidden = section.dataset.view !== nextView;
+    const visible = section.dataset.view === nextView;
+    if (visible) visibleSections.push(section);
+    section.hidden = !visible;
+    section.classList.remove("view-entering");
   });
   renderWorkspaceNav();
+  window.clearTimeout(viewTransitionTimer);
+  window.requestAnimationFrame(() => visibleSections.forEach((section) => section.classList.add("view-entering")));
+  viewTransitionTimer = window.setTimeout(() => {
+    visibleSections.forEach((section) => section.classList.remove("view-entering"));
+  }, 460);
   if (scrollToHash) {
     const key = window.location.hash.replace(/^#/, "").trim();
     const target = key ? document.getElementById(key) : null;
@@ -1130,6 +1147,8 @@ function renderReleaseMetadata() {
     <div><span>Selected network</span><strong>${escapeHtml(network.label)}</strong></div>
     <div><span>Configured address</span><strong>${state.config.contractAddress ? escapeHtml(shortId(state.config.contractAddress)) : "Not set"}</strong></div>
   `;
+  ui.releaseMetadata.classList.remove("is-loading");
+  ui.releaseMetadata.removeAttribute("aria-busy");
 }
 
 function setReleaseStatus(message, stateName = "neutral") {
@@ -1682,7 +1701,8 @@ function renderDeliveryConsole(task, role, status) {
             const candidateState = deliveryCandidateState(candidate, status);
             const eligible = candidate.configMatches && candidate.run;
             return `
-              <button type="button" class="delivery-candidate ${candidate.headSha === discovery.selectedHeadSha ? "selected" : ""}" data-action="select-delivery" data-head-sha="${escapeHtml(candidate.headSha)}" ${eligible ? "" : "disabled"}>
+              <button type="button" class="delivery-candidate ${candidate.headSha === discovery.selectedHeadSha ? "selected" : ""}" data-action="select-delivery" data-head-sha="${escapeHtml(candidate.headSha)}" aria-pressed="${candidate.headSha === discovery.selectedHeadSha ? "true" : "false"}" ${eligible ? "" : "disabled"}>
+                ${candidate.headSha === discovery.selectedHeadSha ? '<span class="selection-marker" aria-hidden="true">Selected</span>' : ""}
                 <span class="status-pill ${candidateState.tone}">${escapeHtml(candidateState.label)}</span>
                 <strong>PR #${candidate.number} · ${escapeHtml(candidate.title)}</strong>
                 <code>${escapeHtml(shortId(candidate.headSha, 10, 8))}</code>
@@ -1696,14 +1716,14 @@ function renderDeliveryConsole(task, role, status) {
         <div class="delivery-submit-row">
           <div><span>Selected manifest</span><code>${escapeHtml(JSON.stringify({ pr_url: selected.prUrl, head_sha: selected.headSha, actions_run_url: selected.run.url }))}</code></div>
           ${workerMaySubmit
-            ? `<form data-form="submit-discovered-evidence"><button class="primary-button" type="submit">${status === "NEEDS_EVIDENCE" ? "Supplement verified evidence" : "Submit verified delivery"}</button></form>`
+            ? `<form data-form="submit-discovered-evidence" data-busy-label="Submitting evidence…"><button class="primary-button" type="submit">${status === "NEEDS_EVIDENCE" ? "Supplement verified evidence" : "Submit verified delivery"}</button></form>`
             : `<button type="button" class="primary-button" data-action="connect-wallet">Connect worker wallet to submit</button>`}
         </div>
       ` : ""}
       ${["OPEN", "NEEDS_EVIDENCE"].includes(status) ? `
         <details class="manual-evidence-fallback">
           <summary>Manual Action proof fallback</summary>
-          <form data-form="submit-evidence">
+          <form data-form="submit-evidence" data-busy-label="Submitting evidence…">
             ${evidenceFields(task)}
             <button class="secondary-button" type="submit" ${workerMaySubmit ? "" : "disabled"}>${status === "NEEDS_EVIDENCE" ? "Supplement manual evidence" : "Submit manual evidence"}</button>
           </form>
@@ -1748,6 +1768,13 @@ function payoutReceiptState(task) {
   };
 }
 
+function animateCaseState() {
+  ui.caseDetail.classList.remove("state-changing");
+  window.clearTimeout(caseTransitionTimer);
+  window.requestAnimationFrame(() => ui.caseDetail.classList.add("state-changing"));
+  caseTransitionTimer = window.setTimeout(() => ui.caseDetail.classList.remove("state-changing"), 380);
+}
+
 function renderTask(task = state.activeTask) {
   renderWorkspaceNav();
   if (!task) {
@@ -1755,6 +1782,7 @@ function renderTask(task = state.activeTask) {
     ui.caseDetail.textContent = state.contractVerified
       ? "Enter a case ID or open a shared Docket URL."
       : "Verify a deployed Docket v2 contract to read a shared case.";
+    animateCaseState();
     renderExceptionCenter();
     return;
   }
@@ -1887,6 +1915,7 @@ function renderTask(task = state.activeTask) {
     </div>
     ${renderTaskActions(task, role, status)}
   `;
+  animateCaseState();
   renderExceptionCenter();
 }
 
@@ -1988,7 +2017,7 @@ function renderRequesterReviewRoom(task, role, status) {
   const requesterAmount = asBigInt(task.escrowAmount) - workerAmount;
 
   return `
-    <form class="requester-review-room" data-form="review-delivery">
+    <form class="requester-review-room" data-form="review-delivery" data-busy-label="Reviewing…">
       <div class="review-room-heading">
         <div><span class="note-kicker">Requester review room</span><h4>Assess the submitted work criterion by criterion.</h4></div>
         <span class="review-progress">${summary.assessedCount}/${summary.totalCount} assessed</span>
@@ -2163,7 +2192,7 @@ function renderAdjudicationLaunchpad(task, role, status) {
           </div>
           <div class="appeal-actions">
             <button type="button" class="text-button" data-action="refresh-adjudication" ${lifecycleState?.state === "loading" ? "disabled" : ""}>${lifecycleState?.state === "loading" ? "Refreshing…" : "Refresh lifecycle"}</button>
-            ${!needsEvidence && lifecycleState?.canAppeal ? `<form data-form="appeal-resolution"><button type="submit" class="secondary-button" ${mayAppeal ? "" : "disabled"}>Appeal for ${escapeHtml(formatGen(appealCharge ?? 0n))}</button></form>` : ""}
+            ${!needsEvidence && lifecycleState?.canAppeal ? `<form data-form="appeal-resolution" data-busy-label="Submitting appeal…"><button type="submit" class="secondary-button" ${mayAppeal ? "" : "disabled"}>Appeal for ${escapeHtml(formatGen(appealCharge ?? 0n))}</button></form>` : ""}
           </div>
         </div>
       ` : `
@@ -2171,7 +2200,7 @@ function renderAdjudicationLaunchpad(task, role, status) {
           <div><span>${preflight.passed ? "Preflight passed" : "Preflight required"}</span><p>${preflight.passed ? "The browser has verified the public packet. GenLayer validators will fetch and judge it independently." : "Recheck the recorded GitHub source before asking validators to adjudicate this dispute."}</p></div>
           <div>
             <button type="button" class="text-button" data-action="run-adjudication-preflight" ${preflight.checking ? "disabled" : ""}>${preflight.checking ? "Checking GitHub…" : "Run evidence preflight"}</button>
-            <form data-form="resolve-dispute"><button class="primary-button" type="submit" ${mayResolve ? "" : "disabled"}>Request GenLayer consensus</button></form>
+            <form data-form="resolve-dispute" data-busy-label="Requesting consensus…"><button class="primary-button" type="submit" ${mayResolve ? "" : "disabled"}>Request GenLayer consensus</button></form>
           </div>
         </div>
       `}
@@ -2214,7 +2243,7 @@ function renderTaskActions(task, role, status) {
 
   if (workerCanEscalate) {
     panels.push(`
-      <form class="action-panel" data-form="escalate-submission">
+      <form class="action-panel" data-form="escalate-submission" data-busy-label="Escalating…">
         <div><span class="note-kicker">Worker escalation</span><h4>Escalate a submission after the contract window.</h4></div>
         <label><span>Reason for review</span><textarea name="reason" maxlength="800" placeholder="Describe why the submitted public evidence should be reviewed. This text is public onchain; do not enter secrets."></textarea></label>
         <p>The contract, not this browser, enforces the 24-hour waiting period after submission.</p>
@@ -2224,7 +2253,7 @@ function renderTaskActions(task, role, status) {
   }
   if (requesterCanRecover) {
     panels.push(`
-      <form class="action-panel" data-form="recover-case">
+      <form class="action-panel" data-form="recover-case" data-busy-label="Requesting recovery…">
         <div><span class="note-kicker">Requester recovery</span><h4>Recover an inconclusive case after its contract window.</h4></div>
         <p>${recoveryWindow?.state === "waiting"
           ? `The contract window is still closed. Recovery may open in ${escapeHtml(formatRecoveryCountdown(recoveryWindow.remainingSeconds))}, around ${escapeHtml(recoveryDate(recoveryWindow.eligibleAt))}. Refresh the case after that time; the contract remains authoritative.`
@@ -2237,7 +2266,7 @@ function renderTaskActions(task, role, status) {
   }
   if (requesterCanCancel) {
     panels.push(`
-      <form class="action-panel compact-action" data-form="cancel-case">
+      <form class="action-panel compact-action" data-form="cancel-case" data-busy-label="Cancelling docket…">
         <p>If no delivery has been submitted, the requester can cancel under the contract rules.</p>
         <button class="text-button danger-button" type="submit">Cancel funded docket</button>
       </form>
@@ -2298,12 +2327,14 @@ function renderRecentCases() {
           ? "Registration failed"
           : "Registration pending"
       : "Opened from configured contract";
+    const selected = entry.id === state.activeTask?.id;
     return `
-      <button type="button" class="recent-case" data-action="open-recent-case" data-task-id="${escapeHtml(entry.id)}">
+      <button type="button" class="recent-case ${selected ? "selected" : ""}" data-action="open-recent-case" data-task-id="${escapeHtml(entry.id)}" aria-pressed="${selected ? "true" : "false"}">
+        ${selected ? '<span class="selection-marker" aria-hidden="true">Current</span>' : ""}
         <span class="recent-case-id">${escapeHtml(entry.id)}</span>
         <strong>${escapeHtml(entry.title || "Untitled docket")}</strong>
         <small>${escapeHtml(entry.repositoryUrl || "Public GitHub repository")} · ${escapeHtml(registrationText)}</small>
-        <span>Open →</span>
+        <span>${selected ? "Open current case →" : "Open →"}</span>
       </button>
     `;
   }).join("");
@@ -2419,17 +2450,49 @@ function setBusy(key, busy) {
   else state.busy.delete(key);
 }
 
-function setFormBusy(form, busy) {
+function setFormBusy(form, busy, pendingButton = null) {
   if (!(form instanceof HTMLFormElement)) return;
-  form.setAttribute("aria-busy", busy ? "true" : "false");
+  if (busy) form.setAttribute("aria-busy", "true");
+  else form.removeAttribute("aria-busy");
+  const target = pendingButton instanceof HTMLButtonElement
+    ? pendingButton
+    : form.querySelector('button[type="submit"]');
   for (const button of form.querySelectorAll("button")) {
     if (busy) {
       button.dataset.docketWasDisabled = button.disabled ? "true" : "false";
       button.disabled = true;
+      if (button === target) {
+        button.dataset.docketOriginalHtml = button.innerHTML;
+        button.classList.add("is-pending");
+        button.innerHTML = `<span class="button-spinner" aria-hidden="true"></span><span>${escapeHtml(form.dataset.busyLabel || "Working…")}</span>`;
+      }
     } else {
       button.disabled = button.dataset.docketWasDisabled === "true";
       delete button.dataset.docketWasDisabled;
+      if (button.dataset.docketOriginalHtml) {
+        button.innerHTML = button.dataset.docketOriginalHtml;
+        delete button.dataset.docketOriginalHtml;
+      }
+      button.classList.remove("is-pending");
     }
+  }
+}
+
+async function withButtonBusy(button, label, operation) {
+  if (!(button instanceof HTMLButtonElement)) return operation();
+  const originalHtml = button.innerHTML;
+  const wasDisabled = button.disabled;
+  button.disabled = true;
+  button.setAttribute("aria-busy", "true");
+  button.classList.add("is-pending");
+  button.innerHTML = `<span class="button-spinner" aria-hidden="true"></span><span>${escapeHtml(label)}</span>`;
+  try {
+    return await operation();
+  } finally {
+    button.innerHTML = originalHtml;
+    button.disabled = wasDisabled;
+    button.removeAttribute("aria-busy");
+    button.classList.remove("is-pending");
   }
 }
 
@@ -2508,6 +2571,8 @@ async function verifyContract({ quiet = false } = {}) {
   const button = document.querySelector('[data-action="verify-contract"]');
   if (button) {
     button.disabled = true;
+    button.setAttribute("aria-busy", "true");
+    button.classList.add("is-pending");
     button.textContent = "Verifying…";
   }
   try {
@@ -2586,6 +2651,8 @@ async function verifyContract({ quiet = false } = {}) {
     setBusy(key, false);
     if (button) {
       button.disabled = false;
+      button.removeAttribute("aria-busy");
+      button.classList.remove("is-pending");
       button.textContent = "Verify contract";
     }
     renderVerification();
@@ -2603,6 +2670,8 @@ async function connectWallet() {
   if (state.busy.has(key)) return;
   setBusy(key, true);
   ui.connectWallet.disabled = true;
+  ui.connectWallet.setAttribute("aria-busy", "true");
+  ui.connectWallet.classList.add("is-pending");
   ui.connectWallet.textContent = "Connecting…";
   try {
     const network = currentNetwork();
@@ -2633,6 +2702,8 @@ async function connectWallet() {
   } finally {
     setBusy(key, false);
     ui.connectWallet.disabled = false;
+    ui.connectWallet.removeAttribute("aria-busy");
+    ui.connectWallet.classList.remove("is-pending");
     renderHeader();
     renderTask();
     renderTransactions();
@@ -2866,6 +2937,7 @@ async function loadTask(taskId, { quiet = false } = {}) {
   }
   ui.caseLoading.hidden = false;
   ui.caseLoading.textContent = `Loading ${id} from the configured contract…`;
+  setFormBusy(ui.openCaseForm, true, ui.openCaseForm.querySelector('button[type="submit"]'));
   try {
     if (state.activeTaskId && state.activeTaskId !== id) {
       state.activeResolutionTxId = "";
@@ -2901,6 +2973,7 @@ async function loadTask(taskId, { quiet = false } = {}) {
     renderTask();
     if (!quiet) toast(`Could not load ${id}: ${formatError(error)}`, "error");
   } finally {
+    setFormBusy(ui.openCaseForm, false);
     ui.caseLoading.hidden = true;
   }
 }
@@ -2936,6 +3009,8 @@ async function submitCreateDocket(event) {
   }
 
   ui.createSubmit.disabled = true;
+  ui.createSubmit.setAttribute("aria-busy", "true");
+  ui.createSubmit.classList.add("is-pending");
   ui.createSubmit.textContent = "Requesting wallet signature…";
   try {
     const checklistJson = JSON.stringify(criteriaForContract(prepared.criteria));
@@ -2972,6 +3047,8 @@ async function submitCreateDocket(event) {
     // runWrite already provided a useful status.
   } finally {
     ui.createSubmit.disabled = false;
+    ui.createSubmit.removeAttribute("aria-busy");
+    ui.createSubmit.classList.remove("is-pending");
     ui.createSubmit.innerHTML = `Fund and create docket <span aria-hidden="true">→</span>`;
   }
 }
@@ -3028,7 +3105,7 @@ async function submitEvidence(event) {
     return;
   }
   const status = String(task.status || "").toUpperCase();
-  setFormBusy(event.target, true);
+  setFormBusy(event.target, true, event.submitter);
   try {
     await runWrite({
       functionName: status === "NEEDS_EVIDENCE" ? "supplement_evidence" : "submit_delivery",
@@ -3062,7 +3139,7 @@ async function submitDiscoveredEvidence(event) {
     return;
   }
   const status = String(task.status || "").toUpperCase();
-  setFormBusy(event.target, true);
+  setFormBusy(event.target, true, event.submitter);
   try {
     await runWrite({
       functionName: status === "NEEDS_EVIDENCE" ? "supplement_evidence" : "submit_delivery",
@@ -3097,7 +3174,7 @@ async function reviewDelivery(event) {
   const summary = summarizeReview(task.criteria, draft.choices);
   const decision = event.submitter?.value || "";
   const evidence = parseEvidenceForDisplay(task.evidenceManifest, task.repositoryUrl);
-  setFormBusy(event.target, true);
+  setFormBusy(event.target, true, event.submitter);
   try {
     if (decision === "accept") {
       if (!summary.allSatisfied) {
@@ -3135,7 +3212,7 @@ async function escalateSubmission(event) {
     toast("Describe the escalation in at least ten characters.", "error");
     return;
   }
-  setFormBusy(event.target, true);
+  setFormBusy(event.target, true, event.submitter);
   try {
     await runWrite({ functionName: "escalate_submission", args: [task.id, reason], label: "Escalate submission", taskId: task.id });
   } catch {
@@ -3163,7 +3240,7 @@ async function resolveDispute(event) {
     toast("A resolution transaction is already recorded for this case.", "error");
     return;
   }
-  setFormBusy(event.target, true);
+  setFormBusy(event.target, true, event.submitter);
   try {
     const hash = await runWrite({ functionName: "resolve_dispute", args: [task.id], label: "Resolve dispute", taskId: task.id });
     if (isTransactionId(hash)) await refreshAdjudicationLifecycle(task, { quiet: true });
@@ -3185,7 +3262,7 @@ async function appealResolution(event) {
   }
   const key = `appeal:${txId}`;
   if (state.busy.has(key)) return;
-  setFormBusy(event.target, true);
+  setFormBusy(event.target, true, event.submitter);
   setBusy(key, true);
   try {
     writeReady();
@@ -3232,7 +3309,7 @@ async function recoverCase(event) {
   event.preventDefault();
   const task = state.activeTask;
   if (!task) return;
-  setFormBusy(event.target, true);
+  setFormBusy(event.target, true, event.submitter);
   try {
     await runWrite({ functionName: "refund_inconclusive_task", args: [task.id], label: "Recover inconclusive case", taskId: task.id });
   } catch {
@@ -3246,7 +3323,7 @@ async function cancelCase(event) {
   event.preventDefault();
   const task = state.activeTask;
   if (!task) return;
-  setFormBusy(event.target, true);
+  setFormBusy(event.target, true, event.submitter);
   try {
     await runWrite({ functionName: "cancel_task", args: [task.id], label: "Cancel docket", taskId: task.id });
   } catch {
@@ -3391,7 +3468,9 @@ function bindEvents() {
         renderTask();
       }
     }
-    if (action === "refresh-transactions") await refreshPendingTransactions();
+    if (action === "refresh-transactions") {
+      await withButtonBusy(control, "Refreshing…", () => refreshPendingTransactions());
+    }
     if (action === "open-exception-case") {
       const taskId = String(control.dataset.taskId || "").trim();
       if (taskId) {
@@ -3482,6 +3561,7 @@ async function initialize() {
   renderTransactions();
   renderHeader();
   bindEvents();
+  window.requestAnimationFrame(() => document.documentElement.classList.add("motion-ready"));
   await fetchReleaseManifest();
 }
 
